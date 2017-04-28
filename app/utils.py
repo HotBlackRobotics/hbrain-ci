@@ -25,9 +25,9 @@ def getMAC(interface):
 def getRobotInfos(app):
     return {
         'name': app.config["DOTBOT_NAME"],
-        'master': app.config["ROS_MASTER_URI"],
+        'master': '*',
         'ip': '*',
-        'bridge': '*/bridge',
+        'bridge': '*/bridge/',
         "macaddress":getMAC('wlan0'),
         "model": "%s v%s"%(app.config["MODEL_NAME"], app.config["MODEL_VERSION"])
         }
