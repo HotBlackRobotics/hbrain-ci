@@ -11,7 +11,6 @@ class Compiler:
         self.read = False
         self._env = None
         self._pnodes = {}
-        pass
 
     def load_env(self):
         import json

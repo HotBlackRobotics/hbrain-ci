@@ -21,3 +21,12 @@ def getMAC(interface):
     except:
         str = "00:00:00:00:00:00"
     return str[0:17]
+
+def getRobotInfos(app):
+    return {
+        'name': app.config["DOTBOT_NAME"],
+        'master': app.config["ROS_MASTER_URI"],
+        'ip': app.config["ROS_IP"],
+        "macaddress":getMAC('wlan0'),
+        "model": "%s v%s"%(app.config["MODEL_NAME"], app.config["MODEL_NAME"], app.config["MODEL_VERSION"])
+        }
