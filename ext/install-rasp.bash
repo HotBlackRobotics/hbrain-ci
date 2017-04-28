@@ -3,6 +3,10 @@ apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 421C365BD9FF
 apt-get update
 apt-get install ros-indigo-ros-base
 apt-get install ros-indigo-rosbridge-suite ros-indigo-rosserial-server
+
+apt-get install nginx avahi-daemon wireless-tools
+apt-get install iw crda wireless-regdb
+
 echo "source /opt/ros/indigo/setup.bash" >> .bashrc
 
 apt-get install python-pip
@@ -19,5 +23,3 @@ mv webapp/ hbrain_server
 cd hbrain_server/
 git checkout develop
 pip install -r requirements.txt
-
-apt-get install nginx avahi-daemon wireless-tools
