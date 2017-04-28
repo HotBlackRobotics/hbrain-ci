@@ -9,7 +9,7 @@ bootstrap = Bootstrap()
 moment = Moment()
 db = SQLAlchemy()
 json = FlaskJSON()
-cors = CORS(resources={r"/": {"origins": "*"}})
+cors = CORS()
 
 
 def create_app(config_name):
@@ -33,18 +33,6 @@ def create_app(config_name):
     from .wifi_views import wifi_views as wifi_views_bp
     app.register_blueprint(wifi_views_bp, url_prefix='/wifi')
 
-
-
-    def get_version():
-        import subprocess, os
-        path = os.path.realpath(__file__)
-        p = subprocess.Popen('git describe --always', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=os.path.dirname(path))
-        ver = ""
-        for line in p.stdout.readlines():
-            ver =  line.rstrip()
-        retval = p.wait()
-        return ver
-
     def get_ros():
         import json, subprocess
         import time
@@ -58,45 +46,21 @@ def create_app(config_name):
 
     app.config["ROS_MASTER_URI"], app.config["DOTBOT_NAME"], app.config["ROS_IP"] = get_ros()
 
-    @app.context_processor
-    def utility_processor():
-        g.MASTER_URL = app.config["ROS_MASTER_URI"]
-        g.DOTBOT_NAME = app.config["DOTBOT_NAME"]
-        g.ROS_IP = app.config["ROS_IP"]
-    	return dict(version=get_version())
-
-
     def sendServerInfo():
         import requests
         from flask import current_app
         with app.app_context():
             app.config["ROS_MASTER_URI"], app.config["DOTBOT_NAME"], app.config["ROS_IP"] = get_ros()
-            def getMAC(interface):
-                try:
-                    str = open('/sys/class/net/' + interface + '/address').read()
-                except:
-                    str = "00:00:00:00:00:00"
-                return str[0:17]
-
-            data = {
-                'name': current_app.config["DOTBOT_NAME"],
-                'master': current_app.config["ROS_MASTER_URI"],
-                'ip': current_app.config["ROS_IP"],
-                "macaddress":getMAC('wlan0'),
-                "model":current_app.config["MODEL_HB"]
-                }
-
-            print data
-
-
-            r = requests.put("http://www.hotblackrobotics.com/robot_api/v1.0/remote_robot", data=data)
+            from .utils import getRobotInfos
+            data = getRobotInfos(app)
+            r = requests.put(app.config('HBR_SERVER') + '/robot_api/v1.0/remote_robot', data=data)
             print r.status_code, r.reason
+
     import uwsgi
     if uwsgi.worker_id() == 1:
         import logging
         logging.basicConfig()
 
-        print 'worker 1'
         from apscheduler.schedulers.background import BackgroundScheduler
         apsched = BackgroundScheduler()
         apsched.start()

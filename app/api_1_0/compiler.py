@@ -29,13 +29,7 @@ class Compiler:
         import copy
         return copy.copy(self._env)
 
-    def run(self, node):
-        #self.kill_node(node.id)
-        self._pnodes[node.id] = subprocess.Popen(['rosrun', current_app.config["DOTBOT_PACKAGE_NAME"], node.executable()], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=self.env(), preexec_fn=os.setsid)
-
-
     def run_dotbot_node(self):
-        #self.kill_node(node.id)
         self._pnodes[1] = subprocess.Popen(['rosrun', current_app.config["DOTBOT_PACKAGE_NAME"], 'dotbot_ros.py'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=self.env(), preexec_fn=os.setsid)
 
 
@@ -49,24 +43,6 @@ class Compiler:
                 return True
         return False
 
-    def compile(self, n):
-        if (Compiler.wall == True):
-            return False
-        Compiler.wall = True
-        if n.catkin_initialized == True:
-            self._bproc = subprocess.Popen(['catkin_make', 'src_' + str(n.id) + '_' + current_app.config["DOTBOT_PACKAGE_NAME"]+'_node'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=current_app.config["CATKIN_FOLDER"], env=self.env())
-        else:
-            self._bproc = subprocess.Popen(['catkin_make', '--force-cmake'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=current_app.config["CATKIN_FOLDER"], env=self.env())
-            n.catkin_initialized = True
-
-        return True
-
-    def catkin(self):
-        if (Compiler.wall == True):
-            return False
-        Compiler.wall = True
-        self.proc = subprocess.Popen(['catkin_make', '--force-cmake'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=current_app.config["CATKIN_FOLDER"], env=self.env())
-
     def read_run_proc(self, id):
         while True:
             line = self._pnodes[id].stdout.readline()
@@ -76,17 +52,4 @@ class Compiler:
             else:
                 yield "data: STOP\n\n"
                 break
-
         yield "data: STOP\n\n"
-
-
-    def read_buid_proc(self, id):
-        while True:
-            line = self._bproc.stdout.readline()
-            if line != '':
-                line = line.rstrip()
-                yield "data: " + line + "\n\n"
-            else:
-                yield "data: STOP\n\n"
-                break
-        Compiler.wall = False

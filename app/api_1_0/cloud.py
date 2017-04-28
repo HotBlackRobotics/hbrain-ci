@@ -14,11 +14,11 @@ from wifi.exceptions import ConnectionError
 from compiler import Compiler
 
 rest_api = Api(api)
-
-
-
 comp = Compiler()
 
+from ..utils import getRobotInfos, replace
+
+'''
 @api.before_request
 def option_autoreply():
     if request.method == 'OPTIONS':
@@ -45,19 +45,12 @@ def option_autoreply():
             h['Access-Control-Allow-Headers'] = headers
 
         return resp
-
-
-def getMAC(interface):
-    try:
-        str = open('/sys/class/net/' + interface + '/address').read()
-    except:
-        str = "00:00:00:00:00:00"
-    return str[0:17]
+'''
 
 class Robot(Resource):
     decorators = [cross_origin(origin="*", headers=["content-type", "autorization"], methods=['GET', 'PUT'])]
     def get(self):
-        return jsonify({'name': current_app.config["DOTBOT_NAME"], 'master': current_app.config["ROS_MASTER_URI"], 'ip': current_app.config["ROS_IP"], "macaddress":getMAC('wlan0'), "model":current_app.config["MODEL_HB"]})
+        return jsonify(getRobotInfos(app))
 
 class RobotSketch(Resource):
 
@@ -68,28 +61,12 @@ class RobotSketch(Resource):
         parser.add_argument('code')
         args = parser.parse_args()
 
-        '''
-        node_id = 1
-        file_id = 1
-    	f = File.query.get_or_404(file_id)
-
-    	f.code = args['code']
-    	f.last_edit = datetime.utcnow()
-    	db.session.add(f)
-    	f.save()
-        db.session.commit()
-
-    	n = Node.query.get_or_404(node_id)
-    	comp.run(n)
-        print 'node running'
-        '''
         of = open('/opt/virtualenvs/ros/project/dotbot_ws/src/dotbot_app/dotbot_ros_skeleton/node.py', "w")
         of.write(args['code'])
         of.close()
         return jsonify({'response': 'ok'})
 
     def get(self):
-        print 'getting streaming'
         node_id = 1
         return redirect(url_for("api.stream", id=1))
 
@@ -97,7 +74,6 @@ class RobotSketch(Resource):
         pass
 
     def delete(self):
-        print 'delete me'
         parser = reqparse.RequestParser()
         parser.add_argument('node')
         args = parser.parse_args()
@@ -208,22 +184,6 @@ class WifiScheme(Resource):
         else:
             return jsonify({'response': "non found"})
 
-import re
-
-def replace(file, pattern, subst):
-    # Read contents from file as a single string
-    file_handle = open(file, 'r')
-    file_string = file_handle.read()
-    file_handle.close()
-
-    # Use RE package to allow for replacement (also allowing for (multiline) REGEX)
-    file_string = (re.sub(pattern, subst, file_string, flags=re.MULTILINE))
-
-    # Write contents to file.
-    # Using mode 'w' truncates the file.
-    file_handle = open(file, 'w')
-    file_handle.write(file_string)
-    file_handle.close()
 
 
 class ConfHostname(Resource):

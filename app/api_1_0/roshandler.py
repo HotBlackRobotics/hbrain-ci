@@ -4,13 +4,8 @@ from flask_json import JsonError, json_response, as_json
 from datetime import datetime
 import subprocess
 import json
-from sqlalchemy.exc import IntegrityError
 from compile import comp
 
-
-#@api.route('/roscore/start')
-#    if not roscore_is_running():
-#@api.route('/roscore/stop')
 
 
 @api.route('/roscore/check')

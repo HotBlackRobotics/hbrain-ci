@@ -2,7 +2,8 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    MODEL_HB = 'HBrain vb0.5.0'
+    MODEL_NAME = 'HBrain-CI'
+    MODEL_VERSION = '0.5.0'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     BOOTSTRAP_SERVE_LOCAL = True
@@ -10,6 +11,7 @@ class Config:
     DOTBOT_PACKAGE_NAME = os.environ.get('DOTBOT_PACKAGE_NAME') or 'dotbot_app'
     ROS_ENVS = os.environ.get('ROS_ENVS') or '/opt/ros/indigo/setup.bash'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    HBR_SERVER = 'http://www.hotblackrobotics.com'
 
     @staticmethod
     def init_app(app):
