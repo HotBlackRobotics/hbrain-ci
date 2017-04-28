@@ -4,7 +4,6 @@ from flask_json import JsonError, json_response, as_json
 from datetime import datetime
 import subprocess
 import json
-from compile import comp
 
 
 
