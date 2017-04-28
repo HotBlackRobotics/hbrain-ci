@@ -155,8 +155,6 @@ class WifiScheme(Resource):
         else:
             return jsonify({'response': "non found"})
 
-
-
 class ConfHostname(Resource):
     decorators = [cross_origin(origin='*')]
     def get(self):
@@ -169,6 +167,7 @@ class ConfHostname(Resource):
         if args["hostname"] is not None and args["hostname"] != "":
             replace(current_app.config["ROS_ENVS"], '^export\sDOTBOT_NAME.*\W', 'export DOTBOT_NAME=%s\n'%args["hostname"])
             replace('/etc/avahi/avahi-daemon.conf', '^host-name=.*\W', 'host-name=%s\n'%args["hostname"])
+            subprocess.Popen(['service avahi-daemon restart'])
             return jsonify({'response': "ok"})
         return jsonify({'response': "error"})
 
