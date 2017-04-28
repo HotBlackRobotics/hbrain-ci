@@ -28,5 +28,5 @@ def getRobotInfos(app):
         'master': app.config["ROS_MASTER_URI"],
         'ip': app.config["ROS_IP"],
         "macaddress":getMAC('wlan0'),
-        "model": "%s v%s"%(app.config["MODEL_NAME"], app.config["MODEL_NAME"], app.config["MODEL_VERSION"])
+        "model": "%s v%s"%(app.config["MODEL_NAME"], app.config["MODEL_VERSION"])
         }
