@@ -48,7 +48,7 @@ def create_app(config_name):
             app.config["ROS_MASTER_URI"], app.config["DOTBOT_NAME"], app.config["ROS_IP"] = get_ros()
             from .utils import getRobotInfos
             data = getRobotInfos(app)
-            r = requests.put(app.config('HBR_SERVER') + '/robot_api/v1.0/remote_robot', data=data)
+            r = requests.put(app.config['HBR_SERVER'] + '/robot_api/v1.0/remote_robot', data=data)
             print r.status_code, r.reason
 
     import uwsgi
