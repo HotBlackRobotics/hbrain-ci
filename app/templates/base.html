@@ -1,39 +1,10 @@
 {% extends "bootstrap/base.html" %} {% block title %} DotBot{% endblock %} {% block scripts %} {{ super() }}
 
-<script type=text/javascript src=" {{ url_for('static', filename='js/vendor/moment-with-locales.min.js') }}">
-</script>
-
 <script type="text/javascript">
 	var master_url = "{{ g.MASTER_URL }}";
 	var dotbot_name = "{{ g.DOTBOT_NAME }}"
 	console.log("master url: ", master_url);
 	console.log("dotbot name: ", dotbot_name);
-</script>
-
-
-<script type="text/javascript">
-	moment.locale("en");
-
-	function flask_moment_render(elem) {
-		$(elem).text(eval('moment("' + $(elem).data('timestamp') + '").' + $(elem).data('format') + ';'));
-		$(elem).removeClass('flask-moment').show();
-	}
-
-	function flask_moment_render_all() {
-		$('.flask-moment').each(function() {
-			flask_moment_render(this);
-			if ($(this).data('refresh')) {
-				(function(elem, interval) {
-					setInterval(function() {
-						flask_moment_render(elem)
-					}, interval);
-				})(this, $(this).data('refresh'));
-			}
-		})
-	}
-	$(document).ready(function() {
-		flask_moment_render_all();
-	});
 </script>
 
 {% endblock %}
@@ -44,7 +15,7 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/">
-				<img style="max-height:20px;" src="/static/img/logo/dotbot-full-50px-white.png">
+				<img style="max-height:20px;" src="/static/img/brand.png">
 			</a>
 		</div>
 
