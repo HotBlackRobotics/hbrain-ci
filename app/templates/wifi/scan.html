@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %} Scan{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+<script type="text/javascript">
+  function addCellToRow(cell) {
+    tabBody=document.getElementsByTagName("tbody").item(0);
+    row=document.createElement("tr");
+    cell1 = document.createElement("td");
+    cell2 = document.createElement("td");
+    textnode1=document.createTextNode(cell.name);
+    textnode2=document.createTextNode(cell.encryption);
+    cell1.appendChild(textnode1);
+    cell2.appendChild(textnode2);
+    row.appendChild(cell1);
+    row.appendChild(cell2);
+    tabBody.appendChild(row);
+  }
+
+  function getCells() {
+    $.getJSON("/api/v1.0/wifi/cells", function(data) {
+      for (i in data.cells) {
+        addCellToRow(data.cells[i]);
+      }
+    });
+  }
+
+  getCells();
+</script>
+
+{% endblock %}
+
+
+
+{% block page_content %}
+
+<div class="container">
+<h2>Basic Table</h2>
+<p>The .table class adds basic styling (light padding and only horizontal dividers) to a table:</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+</div>
+
+
+{% endblock %}

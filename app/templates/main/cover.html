@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+
+<style>
+  body {
+    background-color: white;
+  }
+
+  div.mytitle {
+    color: white;
+    text-align: center;
+    height: calc(100vh - 110px);
+    width: 100%;
+    display: table;
+  }
+
+  div.mytitle > div {
+    vertical-align: middle;
+    display: table-cell;
+  }
+
+  div.mytitle > div  h1 {
+    font-size: 50px;
+    margin: 20px auto
+  }
+
+  div.mytitle > div  p {
+    font-size: 20px;
+  }
+</style>
+{% endblock %}
+
+
+{% block page_content %}
+
+<div class="mytitle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <a href="/" onclick="javascript:event.target.port=9001" type="button" class="btn btn-lg btn-info"> Configurations</a>
+      </div>
+      <div class="col-md-6">
+        <a href="/wifi/schemes" type="button" class="btn btn-lg btn-info"> Wifi</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

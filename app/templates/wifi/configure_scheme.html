@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %} Scan{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+<script type="text/javascript">
+  var selectedCell;
+
+  function chooseCell(cell) {
+    selectedCell = cell;
+    tabBody=document.getElementById("passwordLabel");
+    tabBody.innerHTML="password for " + selectedCell.name;
+  }
+
+  function configure(scheme) {
+    $.ajax({
+      url: "/api/v1.0/wifi/schemes/" + scheme,
+      type: "PUT",
+      data: {'action': 'configure', "ssid": selectedCell.name, 'password': document.getElementById('passwordInput').value},
+      success: function(data) {
+        console.log(data)
+        alert('done');
+      },
+    });
+  }
+
+
+  function addCellToRow(cell) {
+    tabBody=document.getElementsByTagName("tbody").item(0);
+    row = document.createElement("tr");
+    cell1 = document.createElement("td");
+    cell2 = document.createElement("td");
+    cell3 = document.createElement("td");
+    textnode1=document.createTextNode(cell.name);
+    textnode2=document.createTextNode(cell.encryption);
+    button = document.createElement("button");
+    button.appendChild(document.createTextNode("select"));
+
+    button.onclick = function() {chooseCell(cell);};
+    cell1.appendChild(textnode1);
+    cell2.appendChild(textnode2);
+    cell3.appendChild(button);
+    row.appendChild(cell1);
+    row.appendChild(cell2);
+    row.appendChild(cell3);
+    tabBody.appendChild(row);
+  }
+
+  function getCells() {
+    $.getJSON("/api/v1.0/wifi/cells", function(data) {
+      for (i in data.cells) {
+        addCellToRow(data.cells[i]);
+      }
+    });
+  }
+
+  getCells();
+
+</script>
+
+{% endblock %}
+
+
+
+{% block page_content %}
+
+<div class="container">
+<h2>Basic Table</h2>
+<p>The .table class adds basic styling (light padding and only horizontal dividers) to a table:</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="" id="choosepassword">
+      <form>
+        <div class="form-group">
+          <label for="passwordInput" id="passwordLabel">Password</label>
+          <input type="password" class="form-control" id="passwordInput" aria-describedby="emailHelp" placeholder="Enter password">
+        </div>
+        <button type="button" onclick="configure( '{{scheme}}' )" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+{% endblock %}

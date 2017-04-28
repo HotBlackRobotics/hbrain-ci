@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %} Scan{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+<script type="text/javascript">
+
+  function connectToScheme(scheme) {
+    $.ajax({
+        url: "/api/v1.0/wifi/schemes/" + scheme.name,
+        type: "PUT",
+        data: {'action': 'connect'},
+        success: function(data) {
+          console.log(data);
+          alert('connected');
+        },
+    });
+  }
+
+  function cleanScheme(scheme) {
+    $.ajax({
+      url: "/api/v1.0/wifi/schemes/" + scheme.name,
+      type: "PUT",
+      data: {'action': 'clean'},
+      success: function(data) {
+        console.log(data);
+        alert('done');
+      },
+    });
+  }
+
+
+  function addScemeToRow(scheme) {
+    tabBody=document.getElementsByTagName("tbody").item(0);
+    row=document.createElement("tr");
+    cell1 = document.createElement("td");
+    cell2 = document.createElement("td");
+    cell3 = document.createElement("td");
+    textnode1=document.createTextNode(scheme.name);
+    console.log(scheme);
+    if (scheme.options["wpa-ssid"] === undefined) {
+      button = document.createElement("a")
+      button.setAttribute("type","button")
+      button.setAttribute("class","btn btn-xs btn-default")
+      button.setAttribute("href","schemes/"+ scheme.name + "/configure")
+      button.appendChild(document.createTextNode("configure"));
+      cell3.appendChild(button);
+    } else {
+      textnode2=document.createTextNode(scheme.options["wpa-ssid"]);
+      button = document.createElement("button")
+      button.setAttribute("type","button")
+      button.setAttribute("class","btn btn-xs btn-info")
+      button.onclick = function() {connectToScheme(scheme);};
+      button.appendChild(document.createTextNode("connect"));
+
+      button_del = document.createElement("button")
+      button_del.setAttribute("type","button")
+      button_del.setAttribute("class","btn btn-xs btn-danger")
+      button_del.onclick = function() {cleanScheme(scheme);};
+      button_del.appendChild(document.createTextNode("clean"));
+
+      cell2.appendChild(textnode2);
+      cell3.appendChild(button);
+      cell3.appendChild(button_del);
+    }
+    cell1.appendChild(textnode1);
+    row.appendChild(cell1);
+    row.appendChild(cell2);
+    row.appendChild(cell3);
+    tabBody.appendChild(row);
+  }
+
+  function getCells() {
+    $.getJSON("/api/v1.0/wifi/schemes", function(data) {
+      for (i in data.schemes) {
+        addScemeToRow(data.schemes[i]);
+      }
+    });
+  }
+
+  getCells();
+</script>
+
+{% endblock %}
+
+
+
+{% block page_content %}
+
+<div class="container">
+<h2>Wifi Configuration</h2>
+<p>Connected to: {{ wifi_name }}</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Network</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+</div>
+
+
+{% endblock %}
