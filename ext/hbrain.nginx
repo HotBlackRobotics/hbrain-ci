@@ -21,7 +21,7 @@ server {
 
     location / {
       include uwsgi_params;
-      uwsgi_pass unix:///hbrain/run/dotbot.sock;
+      uwsgi_pass unix:///opt/hbrain/run/dotbot.sock;
       uwsgi_buffering off;
       chunked_transfer_encoding off;
       proxy_cache off;
