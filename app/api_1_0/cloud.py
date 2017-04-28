@@ -1,4 +1,4 @@
-from flask import Flask, current_app, g, jsonify, Response, request, current_app, redirect, url_for
+from flask import Flask, current_app, g, jsonify, Response, request, redirect, url_for
 from flask_restful import Resource, Api
 
 from flask_cors import CORS, cross_origin
@@ -50,7 +50,7 @@ def option_autoreply():
 class Robot(Resource):
     decorators = [cross_origin(origin="*", headers=["content-type", "autorization"], methods=['GET', 'PUT'])]
     def get(self):
-        return jsonify(getRobotInfos(app))
+        return jsonify(getRobotInfos(current_app))
 
 class RobotSketch(Resource):
 
