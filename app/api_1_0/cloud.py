@@ -18,35 +18,6 @@ comp = Compiler()
 
 from ..utils import getRobotInfos, replace
 
-'''
-@api.before_request
-def option_autoreply():
-    if request.method == 'OPTIONS':
-        resp = current_app.make_default_options_response()
-
-        headers = None
-        if 'ACCESS_CONTROL_REQUEST_HEADERS' in request.headers:
-            headers = request.headers['ACCESS_CONTROL_REQUEST_HEADERS']
-
-        h = resp.headers
-
-        # Allow the origin which made the XHR
-        h['Access-Control-Allow-Origin'] = '*'
-        # Allow the actual method
-        h['Access-Control-Allow-Methods'] = h['Allow']
-        # Allow for 10 seconds
-        h['Access-Control-Max-Age'] = 86400
-
-        h["Access-Control-Allow-Credentials"] = False;
-        h["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
-        h["Access-Control-Allow-Content-Type"] = "text/event-stream; charset=utf-8"
-        # We also keep current headers
-        if headers is not None:
-            h['Access-Control-Allow-Headers'] = headers
-
-        return resp
-'''
-
 class Robot(Resource):
     decorators = [cross_origin(origin="*", headers=["content-type", "autorization"], methods=['GET', 'PUT'])]
     def get(self):
@@ -195,11 +166,9 @@ class ConfHostname(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('hostname')
         args = parser.parse_args()
-
         if args["hostname"] is not None and args["hostname"] != "":
-            replace('/opt/virtualenvs/ros/project/config.bash', '^export\sDOTBOT_NAME.*\W', 'export DOTBOT_NAME=%s\n'%args["hostname"])
+            replace(current_app.config["ROS_ENVS"], '^export\sDOTBOT_NAME.*\W', 'export DOTBOT_NAME=%s\n'%args["hostname"])
             replace('/etc/avahi/avahi-daemon.conf', '^host-name=.*\W', 'host-name=%s\n'%args["hostname"])
-            replace('/opt/virtualenvs/ros/project/config.bash', '^export\sROS_MASTER_URI.*\W', 'export ROS_MASTER_URI=http://%s.local:11311\n'%args["hostname"])
             return jsonify({'response': "ok"})
         return jsonify({'response': "error"})
 
