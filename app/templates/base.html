@@ -1,4 +1,4 @@
-{% extends "bootstrap/base.html" %} {% block title %} DotBot{% endblock %} {% block scripts %} {{ super() }}
+{% extends "bootstrap/base.html" %} {% block title %} HBrain-CI Interface{% endblock %} {% block scripts %} {{ super() }}
 
 <script type="text/javascript">
 	var master_url = "{{ g.MASTER_URL }}";
@@ -6,7 +6,6 @@
 	console.log("master url: ", master_url);
 	console.log("dotbot name: ", dotbot_name);
 </script>
-
 {% endblock %}
 
 {% block navbar %}
@@ -15,11 +14,9 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/">
-				<img style="max-height:20px;" src="/static/img/brand.png">
+				<img style="max-width:200px;margin-top: -7px;" src="/static/img/brand.png">
 			</a>
 		</div>
-
-
 	</div>
 </div>
 </div>
