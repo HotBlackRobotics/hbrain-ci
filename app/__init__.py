@@ -6,7 +6,6 @@ from flask import g
 from flask_cors import CORS
 
 bootstrap = Bootstrap()
-moment = Moment()
 db = SQLAlchemy()
 json = FlaskJSON()
 cors = CORS()
