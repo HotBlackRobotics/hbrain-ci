@@ -32,7 +32,7 @@ class RobotSketch(Resource):
         parser.add_argument('code')
         args = parser.parse_args()
 
-        of = open('/opt/virtualenvs/ros/project/dotbot_ws/src/dotbot_app/dotbot_ros_skeleton/node.py', "w")
+        of = open(current_app.config['CATKIN_FOLDER'] + 'src/' + current_app.config['DOTBOT_PACKAGE_NAME'] + '/dotbot_ros_skeleton/node.py', "w")
         of.write(args['code'])
         of.close()
         return jsonify({'response': 'ok'})

@@ -5,10 +5,9 @@ class Config:
     MODEL_NAME = 'HBrain-CI'
     MODEL_VERSION = '0.5.0'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
-    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     BOOTSTRAP_SERVE_LOCAL = True
-    CATKIN_FOLDER = os.environ.get('CATKIN_FOLDER') or '/Users/ludus/develop/dotbot_ws/ros/'
-    DOTBOT_PACKAGE_NAME = os.environ.get('DOTBOT_PACKAGE_NAME') or 'dotbot_app'
+    CATKIN_FOLDER = os.environ.get('CATKIN_FOLDER') or '/opt/hbrain-ros/'
+    DOTBOT_PACKAGE_NAME = os.environ.get('DOTBOT_PACKAGE_NAME') or 'hbr_app'
     ROS_ENVS = os.environ.get('ROS_ENVS') or '/opt/ros/indigo/setup.bash'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     HBR_SERVER = 'http://www.hotblackrobotics.com'
