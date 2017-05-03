@@ -1,3 +1,4 @@
+import netifaces as ni
 import re
 def replace(file, pattern, subst):
     # Read contents from file as a single string
@@ -26,8 +27,15 @@ def getRobotInfos(app):
     return {
         'name': app.config["DOTBOT_NAME"],
         'master': '*',
-        'ip': '*',
+        'ip': getIP(),
         'bridge': '*/bridge/',
         "macaddress":getMAC('wlan0'),
         "model": "%s v%s"%(app.config["MODEL_NAME"], app.config["MODEL_VERSION"])
         }
+
+def getIP():
+    try:
+        ip = ni.ifaddresses('wlan0')[2][0]['addr']
+    except:
+        ip = ni.ifaddresses('eth0')[2][0]['addr']
+    return ip

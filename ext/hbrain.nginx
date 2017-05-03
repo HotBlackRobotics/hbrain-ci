@@ -19,11 +19,6 @@ server {
         proxy_redirect off;
     }
 
-    location /supervisor {
-        proxy_buffering off;
-        proxy_pass http://localhost:9001;
-    }
-
     location / {
       include uwsgi_params;
       uwsgi_pass unix:///opt/hbrain/run/dotbot.sock;
