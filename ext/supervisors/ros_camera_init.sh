@@ -1,3 +1,3 @@
 #!/bin/bash
 source /opt/hbrain/hbrain-ci/ext/ros.bash
-roslaunch dotbot_bringup bringup_camera.launch
+roslaunch hbr_bringup bringup_camera.launch
