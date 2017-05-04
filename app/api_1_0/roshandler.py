@@ -15,17 +15,6 @@ def roscore_check():
 def roscore_is_running():
     return True
 
-
-@api.route("/ros/rosconfig", methods=["PUT"])
-def post_rosconfig():
-    print request.json
-    of = open("/opt/virtualenvs/ros/project/config.bash", "w")
-    of.write(render_template("code/config.bash", namespace = request.json["namespace"], master=request.json["master"], ip=request.json["ip"]))
-    of.close()
-    return "ok"
-
-
-
 def get_rostopic():
     system_topics = ['/rosout', '/rosout_agg']
     p = subprocess.Popen('rostopic list', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=comp.env())
