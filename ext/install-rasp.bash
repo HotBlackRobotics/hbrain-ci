@@ -23,3 +23,19 @@ mv webapp/ hbrain_server
 cd hbrain_server/
 git checkout develop
 pip install -r requirements.txt
+
+### Wifi Management
+
+apt-get install wpasupplicant
+rm /etc/network/interfaces
+ln -s /opt/hbrain/hbrain-ci/ext/interfaces /etc/network/interfaces
+
+crontab -l > mycron
+echo "@reboot /opt/hbrain/hbrain-ci/ext/autowifi.bash >> /var/log/wifi_auto.log" >> mycron
+crontab mycron
+rm mycron
+update-rc.d cron defaults
+
+
+echo "[Service]" >> /lib/systemd/system/networking.service.d/network-pre.conf
+echo "TimeoutStartSec=1" >> /lib/systemd/system/networking.service.d/network-pre.conf
