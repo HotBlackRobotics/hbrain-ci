@@ -1,0 +1,18 @@
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+
+iface wlan0-scheme-1 inet dhcp
+
+iface wlan0-scheme-2 inet dhcp
+
+iface wlan0-scheme-3 inet dhcp
+
+iface wlan0-scheme-4 inet dhcp
+
+iface wlan0-scheme-5 inet dhcp
