@@ -39,3 +39,9 @@ update-rc.d cron defaults
 
 echo "[Service]" >> /lib/systemd/system/networking.service.d/network-pre.conf
 echo "TimeoutStartSec=1" >> /lib/systemd/system/networking.service.d/network-pre.conf
+
+
+### ros camera
+cd /opt/hbrain-ros/src
+git clone https://github.com/RobotWebTools/web_video_server
+git clone https://github.com/fpasteau/raspicam_node.git
