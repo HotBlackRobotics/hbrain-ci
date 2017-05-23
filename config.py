@@ -3,7 +3,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     MODEL_NAME = 'HBrain-CI'
-    MODEL_VERSION = '0.5.0'
+    MODEL_VERSION = os.environ.get('HBRAIN_VERSION') or '0.0.0'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     BOOTSTRAP_SERVE_LOCAL = True
     CATKIN_FOLDER = os.environ.get('CATKIN_FOLDER') or '/opt/hbrain-ros/'
