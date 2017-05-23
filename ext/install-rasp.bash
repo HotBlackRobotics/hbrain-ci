@@ -49,6 +49,13 @@ nvm --version
 nvm install v6
 npm install pm2 -g
 pm2 install pm2-webshell
+pm2 set pm2-webshell:username hbrain
+pm2 set pm2-webshell:password dotbot
+pm2 set pm2-webshell:port 7890
+pm2 startup systemd
+pm2 save
+
+
 
 ### ros camera
 cd /opt/hbrain-ros/src
