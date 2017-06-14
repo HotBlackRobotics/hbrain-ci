@@ -1,3 +1,3 @@
 #!/bin/bash
 source /opt/hbrain/bin/activate
-wifi autoconnect
+python /opt/hbrain/hbrain-ci/ext/autowifi.py
