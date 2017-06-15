@@ -7,6 +7,12 @@ apt-get install ros-indigo-rosbridge-suite ros-indigo-rosserial-server
 apt-get install nginx avahi-daemon wireless-tools
 apt-get install iw crda wireless-regdb
 
+apt-get install hostapd isc-dhcp-server
+echo "DAEMON_CONF=\"/opt/hbrain/hbrain-ci/ext/hostapd.conf\"" >> /etc/default/hostapd
+rm /etc/dhcp/dhcpd.conf
+ln -s  /opt/hbrain/hbrain-ci/ext/dhcpd.conf /etc/dhcp/dhcpd.conf
+
+
 echo "source /opt/ros/indigo/setup.bash" >> .bashrc
 
 apt-get install python-pip
@@ -54,6 +60,18 @@ pm2 set pm2-webshell:password dotbot
 pm2 set pm2-webshell:port 7890
 pm2 startup systemd
 pm2 save
+
+### Add Ascii ART
+
+echo " ____  ____  ______   _______             _
+|_   ||   _||_   _ \ |_   __ \           (_)
+  | |__| |    | |_) |  | |__) |   ,--.   __   _ .--.
+  |  __  |    |  __'.  |  __ /   `'_\ : [  | [ `.-. |
+ _| |  | |_  _| |__) |_| |  \ \_ // | |, | |  | | | |
+|____||____||_______/|____| |___|\'-;__/[___][___||__]
+
+Designed by HotBlack Robotics v0.5.2
+                                                       "
 
 
 
