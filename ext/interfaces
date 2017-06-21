@@ -1,18 +1,34 @@
 auto lo
 iface lo inet loopback
 
-allow-hotplug eth0
+auto eth0
 iface eth0 inet dhcp
 
+auto wlan0
 allow-hotplug wlan0
-iface wlan0 inet dhcp
 
-iface wlan0-scheme-1 inet dhcp
+iface wlan0-hotspot inet static
+    address 192.168.42.1
+    netmask 255.255.255.0
+    post-up service hostapd start
+    post-up service isc-dhcp-server restart
+    post-up iw dev $IFACE set power_save off
+    pre-down service hostapd stop
+    pre-down service isc-dhcp-server stop
+
 
 iface wlan0-scheme-2 inet dhcp
 
 iface wlan0-scheme-3 inet dhcp
+    wpa-psk 530240e61e5823da7fc996e5e57609a92088a8d34df1be5968371dd6c535f54e
+    wpa-ssid TIM_SILVIA
+    wireless-channel auto
 
 iface wlan0-scheme-4 inet dhcp
 
 iface wlan0-scheme-5 inet dhcp
+
+iface wlan0-scheme-1 inet dhcp
+    wpa-psk e84e295a2cff6907ac13a9abbe139c004989c94938db09bcdab6861976c2d5a4
+    wpa-ssid dotbot
+    wireless-channel auto
