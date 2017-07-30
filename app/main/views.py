@@ -3,7 +3,7 @@ from flask import render_template, session, redirect, url_for
 
 from . import main
 import subprocess
-
+import json
 
 def get_config():
     env_var_source = '/opt/hbrain/configurations/vars.bash'
