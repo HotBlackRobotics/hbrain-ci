@@ -44,9 +44,64 @@
       <div class="col-md-6">
         <a href="/wifi/schemes" type="button" class="btn btn-lg btn-info"> Wifi</a>
       </div>
-
     </div>
   </div>
 </div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h1> Benvenuto nel pannello di configurazione del Robot</h1>
+
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>Nome</td>
+            <td>{{session['robot']['name']}}</td>
+          </tr>
+          <tr>
+            <td>Modello</td>
+            <td>{{session['robot']['model']}}</td>
+          </tr>
+          <tr>
+            <td>OS</td>
+            <td>{{session['robot']['model']}}</td>
+          </tr>
+          <tr>
+            <td>Azioni</td>
+            <td>
+              <button type="button" class="btn btn-xs btn-danger" aria-label="Left Align" onclick="robot_cmd('poweroff')">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    Spegni
+                </button>
+                <button type="button" class="btn btn-xs btn-info" aria-label="Left Align" onclick="robot_cmd('reboot')">
+                  <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+                  Riavvia
+                </button>
+                <a href="/wifi/schemes" class="btn btn-xs btn-info" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+                  Configurazione WiFi
+                </a>
+                <a href="/" onclick="javascript:event.target.port=9001" class="btn btn-xs btn-info" aria-label="Left Align" onclick="robot_cmd('reboot')">
+                  <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+                  Impostazioni Avanzate
+                </a>
+              </td>
+           </tr>
+        </tbody>
+      </table>
+
+
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Nuovo Nome" id="hostnametxt">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" onclick="set_hostname()">Vai!</button>
+        </span>
+      </div><!-- /input-group -->
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}
