@@ -25,9 +25,6 @@ def create_app(config_name):
     from .api_1_0 import api as api_1_0_bp
     app.register_blueprint(api_1_0_bp, url_prefix='/api/v1.0')
 
-    #from .wifi_views import wifi_views as wifi_views_bp
-    #app.register_blueprint(wifi_views_bp, url_prefix='/wifi')
-
     def get_ros():
         import json, subprocess
         import time

@@ -1,10 +1,23 @@
-{% extends "bootstrap/base.html" %} {% block title %} HBrain-CI Interface{% endblock %} {% block scripts %} {{ super() }}
+{% extends "bootstrap/base.html" %}
+{% block title %} O|Robot {% endblock %}
+
+{% block scripts %}
+{{ super() }}
 
 <script type="text/javascript">
-	var master_url = "{{ g.MASTER_URL }}";
-	var dotbot_name = "{{ g.DOTBOT_NAME }}"
-	console.log("master url: ", master_url);
-	console.log("dotbot name: ", dotbot_name);
+function robot_cmd(cmd) {
+	$.ajax({
+		url: '/api/v1.0/manage/robot',
+		data: {'command': cmd},
+		type: 'POST',
+		dataType: 'json',
+		success: function(result) {
+			console.log(result);
+			alert("Ok...");
+		}
+	});
+}
+
 </script>
 {% endblock %}
 
@@ -17,6 +30,18 @@
 				O|Robot 101
 			</a>
 		</div>
+		<div class="navbar-collapse collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li> <a href="/settings"><span class="glyphicon glyphicon-cog"></span> </a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-off" style="color:red"></span>  <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a type="button" onclick="robot_cmd('poweroff')">Spegni</a></li>
+					<li><a type="button" onclick="robot_cmd('reboot')">Riavvia</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
 	</div>
 </div>
 </div>
