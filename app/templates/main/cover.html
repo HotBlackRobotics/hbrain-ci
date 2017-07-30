@@ -38,7 +38,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-      <h1> Benvenuto nel pannello di configurazione del Robot</h1>
+      <h1> Pannello di Configurazione</h1>
 
       <table class="table">
         <tbody>
@@ -61,7 +61,7 @@
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     Spegni
                 </button>
-                <button type="button" class="btn btn-xs btn-info" aria-label="Left Align" onclick="robot_cmd('reboot')">
+                <button type="button" class="btn btn-xs btn-warning" aria-label="Left Align" onclick="robot_cmd('reboot')">
                   <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
                   Riavvia
                 </button>
@@ -71,8 +71,8 @@
            <tr>
              <td>WiFi</td>
              <td>
-                 <a href="/wifi/schemes" class="btn btn-xs btn-info" aria-label="Left Align">
-                   <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+                 <a href="/wifi/schemes" class="btn btn-xs btn-primary" aria-label="Left Align">
+                   <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
                    Configurazione WiFi
                  </a>
                </td>
@@ -81,8 +81,8 @@
             <tr>
               <td>Altro</td>
               <td>
-                <a href="/" onclick="javascript:event.target.port=9001" class="btn btn-xs btn-info" aria-label="Left Align" onclick="robot_cmd('reboot')">
-                  <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+                <a href="/" onclick="javascript:event.target.port=9001" class="btn btn-xs btn-primary" aria-label="Left Align" onclick="robot_cmd('reboot')">
+                  <span class="glyphicon glyphicon-cd" aria-hidden="true"></span>
                   Impostazioni Avanzate
                 </a>
                </td>
