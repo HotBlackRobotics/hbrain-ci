@@ -9,7 +9,7 @@ function set_hostname() {
 		hostname = $("#hostnametxt").val();
 		console.log(hostname)
 		$.ajax({
-		url: 'http://'+'{{session['robot']['ip']}}'.trim() + '/api/v1.0/conf/hostname',
+		url: '/api/v1.0/conf/hostname',
 		data: {'hostname': hostname},
 		type: 'PUT',
 		dataType: 'json',
