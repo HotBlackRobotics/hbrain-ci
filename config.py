@@ -9,6 +9,7 @@ class Config:
     CATKIN_FOLDER = os.environ.get('CATKIN_FOLDER') or '/opt/hbrain-ros/'
     DOTBOT_PACKAGE_NAME = os.environ.get('DOTBOT_PACKAGE_NAME') or 'hbr_app'
     ROS_ENVS = os.environ.get('ROS_ENVS') or '/opt/ros/indigo/setup.bash'
+    DOTBOT_VAR_ENVS = os.environ.get('DOTBOT_VAR_ENVS') or '/opt/hbrain/configurations/vars.bash'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     HBR_SERVER = 'http://www.hotblackrobotics.com'
 

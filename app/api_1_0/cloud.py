@@ -31,15 +31,14 @@ class RobotSketch(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('code')
         args = parser.parse_args()
-
         of = open(current_app.config['CATKIN_FOLDER'] + 'src/' + current_app.config['DOTBOT_PACKAGE_NAME'] + '/hbr_ros_skeleton/node.py', "w")
         of.write(args['code'])
         of.close()
+        comp.run_dotbot_node()
         return jsonify({'response': 'ok'})
 
     def get(self):
-        node_id = 1
-        return redirect(url_for("api.stream", id=1))
+        return jsonify({'response': 'ok'})
 
     def options(self):
         pass
@@ -54,14 +53,15 @@ class RobotSketch(Resource):
         killproc.wait()
     	return jsonify({'response': 'ok'})
 
+'''
 class StreamNode(Resource):
 
     decorators = [cross_origin(origin='*')]
 
     def get(self, id):
         comp.run_dotbot_node()
-        return Response(comp.read_run_proc(id), mimetype='text/event-stream')
-
+        return jsonify({'response': 'running'})
+        #return Response(comp.read_run_proc(id), mimetype='text/event-stream')
 class WifiCells(Resource):
     def get(self):
         cells = Cell.all('wlan0')
@@ -154,6 +154,7 @@ class WifiScheme(Resource):
             return jsonify({'response': "ok"})
         else:
             return jsonify({'response': "non found"})
+'''
 
 class ConfHostname(Resource):
     decorators = [cross_origin(origin='*')]
@@ -165,9 +166,8 @@ class ConfHostname(Resource):
         parser.add_argument('hostname')
         args = parser.parse_args()
         if args["hostname"] is not None and args["hostname"] != "":
-            replace(current_app.config["ROS_ENVS"], '^export\sDOTBOT_NAME.*\W', 'export DOTBOT_NAME=%s\n'%args["hostname"])
-            replace('/etc/avahi/avahi-daemon.conf', '^host-name=.*\W', 'host-name=%s\n'%args["hostname"])
-            subprocess.Popen('service avahi-daemon restart'.split())
+            hostname = '_'.join(args["hostname"].lower().split())
+            replace(current_app.config["DOTBOT_VAR_ENVS"], '^export\sDOTBOT_NAME.*\W', 'export DOTBOT_NAME=%s\n'%hostname)
             return jsonify({'response': "ok"})
         return jsonify({'response': "error"})
 
@@ -189,11 +189,11 @@ class ManageRobot(Resource):
 
 rest_api.add_resource(Robot, '/discovery')
 rest_api.add_resource(RobotSketch, '/run/sketch')
-rest_api.add_resource(StreamNode, '/stream/<int:id>', endpoint="stream")
 
-rest_api.add_resource(WifiCells, '/wifi/cells')
-rest_api.add_resource(WifiSchemes, '/wifi/schemes')
-rest_api.add_resource(WifiScheme, '/wifi/schemes/<name>')
+#rest_api.add_resource(StreamNode, '/stream/<int:id>', endpoint="stream")
+#rest_api.add_resource(WifiCells, '/wifi/cells')
+#rest_api.add_resource(WifiSchemes, '/wifi/schemes')
+#rest_api.add_resource(WifiScheme, '/wifi/schemes/<name>')
 
 rest_api.add_resource(ConfHostname, '/conf/hostname')
 rest_api.add_resource(ManageRobot, '/manage/robot')

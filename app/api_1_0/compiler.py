@@ -42,6 +42,7 @@ class Compiler:
                 return True
         return False
 
+'''
     def read_run_proc(self, id):
         while True:
             line = self._pnodes[id].stdout.readline()
@@ -52,3 +53,4 @@ class Compiler:
                 yield "data: STOP\n\n"
                 break
         yield "data: STOP\n\n"
+'''
