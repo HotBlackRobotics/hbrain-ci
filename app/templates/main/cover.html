@@ -1,5 +1,29 @@
 {% extends "base.html" %}
 
+{% block scripts %}
+{{ super() }}
+
+<script type="text/javascript">
+
+function set_hostname() {
+		hostname = $("#hostnametxt").val();
+		console.log(hostname)
+		$.ajax({
+		url: 'http://'+'{{session['robot']['ip']}}'.trim() + '/api/v1.0/conf/hostname',
+		data: {'hostname': hostname},
+		type: 'PUT',
+		dataType: 'json',
+		success: function(result) {
+			console.log(result);
+			alert("Ok... Reboot your robot!");
+		}
+	});
+}
+
+</script>
+{% endblock %}
+
+
 {% block head %}
 {{ super() }}
 
